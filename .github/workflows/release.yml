@@ -1,0 +1,83 @@
+name: Release Datapack & Resourcepack
+
+on:
+  push:
+    tags:
+      - '*'
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Determine version from tag
+        id: version
+        run: |
+          TAG="${GITHUB_REF_NAME}"
+          # Strip leading 'v' if present
+          VERSION="${TAG#v}"
+          echo "version=$VERSION" >> $GITHUB_OUTPUT
+
+      - name: Prepare git-cliff
+        run: |
+          REPO_URL="https://github.com/${{ github.repository }}"
+          sed -i "s|%%%repo_url%%%|${REPO_URL}|g" cliff.toml
+
+      - name: Generate changelog with git-cliff
+        id: cliff
+        uses: orhun/git-cliff-action@v4
+        with:
+          args: --latest --strip header --output CHANGELOG.md
+          version: 'v2.10.1'
+
+      - name: Create datapack zip
+        run: |
+          cd datapack
+          zip -r "../mapverse-datapack-${{ steps.version.outputs.version }}.zip" .
+
+      - name: Create resourcepack zip
+        run: |
+          cd resourcepack
+          zip -r "../mapverse-resourcepack-${{ steps.version.outputs.version }}.zip" .
+      
+      - name: Create or update GitHub release
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          TAG="${GITHUB_REF_NAME}"
+
+          ASSETS=(
+            "mapverse-datapack-${{ steps.version.outputs.version }}.zip"
+            "mapverse-resourcepack-${{ steps.version.outputs.version }}.zip"
+          )
+
+          echo "Creating or updating release for $TAG"
+
+          if gh release view "$TAG" >/dev/null 2>&1; then
+            echo "Release exists, updating..."
+
+            gh release edit "$TAG" \
+              --title "$TAG" \
+              --notes-file CHANGELOG.md \
+              --latest || true
+
+            for FILE in "${ASSETS[@]}"; do
+              gh release delete-asset "$TAG" "$(basename "$FILE")" -y || true
+              gh release upload "$TAG" "$FILE"
+            done
+          else
+            echo "Release does not exist, creating..."
+
+            gh release create "$TAG" \
+              --title "$TAG" \
+              --notes-file CHANGELOG.md \
+              --latest \
+              --verify-tag \
+              "${ASSETS[@]}"
+          fi

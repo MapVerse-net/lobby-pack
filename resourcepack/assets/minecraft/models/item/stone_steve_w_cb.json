@@ -3,11 +3,11 @@
 	"credit": "Made by Openvoxel Studios",
 	"texture_size": [64, 64],
 	"textures": {
-		"0": "item/stone_steve",
-		"1": "block/command_block_back",
-		"2": "block/command_block_front",
-		"3": "block/command_block_side",
-		"particle": "block/command_block_back"
+		"0": "minecraft:item/custom/stone_steve",
+		"1": "minecraft:block/command_block_back",
+		"2": "minecraft:block/command_block_front",
+		"3": "minecraft:block/command_block_side",
+		"particle": "minecraft:block/command_block_back"
 	},
 	"elements": [
 		{
@@ -235,7 +235,6 @@
 			"origin": [6.1, 6, 8],
 			"color": 0,
 			"children": [10, 11]
-		},
-		12
+		}
 	]
 }

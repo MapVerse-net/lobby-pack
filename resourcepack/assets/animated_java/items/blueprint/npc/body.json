@@ -1,0 +1,91 @@
+{
+	"model": {
+		"type": "minecraft:select",
+		"property": "minecraft:custom_model_data",
+		"cases": [
+			{
+				"when": "AJ_INTERNAL_EMPTY",
+				"model": {
+					"type": "minecraft:empty"
+				}
+			},
+			{
+				"when": "rotgruengelb",
+				"model": {
+					"type": "minecraft:model",
+					"model": "animated_java:blueprint/npc/rotgruengelb/body",
+					"tints": [
+						{"type": "minecraft:dye", "default": [1, 1, 1]}
+					]
+				}
+			},
+			{
+				"when": "food",
+				"model": {
+					"type": "minecraft:model",
+					"model": "animated_java:blueprint/npc/food/body",
+					"tints": [
+						{"type": "minecraft:dye", "default": [1, 1, 1]}
+					]
+				}
+			},
+			{
+				"when": "oldman",
+				"model": {
+					"type": "minecraft:model",
+					"model": "animated_java:blueprint/npc/oldman/body",
+					"tints": [
+						{"type": "minecraft:dye", "default": [1, 1, 1]}
+					]
+				}
+			},
+			{
+				"when": "steve_",
+				"model": {
+					"type": "minecraft:model",
+					"model": "animated_java:blueprint/npc/steve_/body",
+					"tints": [
+						{"type": "minecraft:dye", "default": [1, 1, 1]}
+					]
+				}
+			},
+			{
+				"when": "fred",
+				"model": {
+					"type": "minecraft:model",
+					"model": "animated_java:blueprint/npc/fred/body",
+					"tints": [
+						{"type": "minecraft:dye", "default": [1, 1, 1]}
+					]
+				}
+			},
+			{
+				"when": "boy",
+				"model": {
+					"type": "minecraft:model",
+					"model": "animated_java:blueprint/npc/boy/body",
+					"tints": [
+						{"type": "minecraft:dye", "default": [1, 1, 1]}
+					]
+				}
+			},
+			{
+				"when": "suitguy",
+				"model": {
+					"type": "minecraft:model",
+					"model": "animated_java:blueprint/npc/suitguy/body",
+					"tints": [
+						{"type": "minecraft:dye", "default": [1, 1, 1]}
+					]
+				}
+			}
+		],
+		"fallback": {
+			"type": "minecraft:model",
+			"model": "animated_java:blueprint/npc/body",
+			"tints": [
+				{"type": "minecraft:dye", "default": [1, 1, 1]}
+			]
+		}
+	}
+}
